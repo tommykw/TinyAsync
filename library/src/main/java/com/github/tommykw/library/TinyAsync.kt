@@ -16,5 +16,4 @@ internal fun <T, R> TinyAsync<T>.mainThread(block: (T) -> R) =
     ioThread( Executor { Handler(Looper.getMainLooper()).post(it) }, block)
 
 internal fun <T> T.dispatch(executorService: ExecutorService, block: TinyAsync<T>.() -> Unit): Future<Unit> =
-    executorService.submit<Unit> { TinyAsync.(WeakReference(this).block) }
-  
+    executorService.submit<Unit> { TinyAsync(WeakReference(this)).block() }
